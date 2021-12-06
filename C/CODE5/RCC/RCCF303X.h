@@ -1,0 +1,343 @@
+/******************************************************************************
+*DESIGNED FOR STM32F303CB
+*
+*******************************************************************************/
+
+#ifndef _RCCF303_H_
+#define _RCCF303_H_
+
+#include "CORE\CORE.h"
+#ifdef USECONF
+#include "CONF.h"
+#include "devlist.h"
+#endif//USECONF
+
+#if defined(STM32F303X)
+//Основные частоты
+extern U32 HSIFRQ;
+extern U32 APB1FRQ;
+extern U32 APB2FRQ;
+
+typedef struct
+{
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+      volatile U32 HSION:1,HSIRDY:1,:1,HSITRIM:5,HSICAL:8,HSEON:1,HSERDY:1,HSEBYP:1,CSSON:1,:4,PLLON:1,PLLRDY:1;
+    }BIT;
+  }CR;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 SW:2,SWS:2,HPRE:4,PPRE1:3,PPRE2:3,:2,PLLSRC:1,PLLXTPRE:1,PLLMUL:4,USBPRES:1,I2SSRC:1,MCO:3,:1,MCOF:1,MCOPRE:2,PLLNODIV:1;
+    }BIT;
+  }CFGR;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 LSIRDYF:1,LSERDYF:1,HSIRDYF:1,HSERDYF:1,PLLRDYF:1,:2,CSSF:1,LSIRDYIE:1,LSERDYIE:1,HSIRDYIE:1,HSERDYIE:1,PLLRDYIE:1,:3,LSIRDYC:1,LSERDYC:1,HSIRDYC:1,HSERDYC:1,PLLRDYC:1,:2,CSSC:1;
+    }BIT;
+  }CIR;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {   
+       volatile U32 SYSCFGRST:1,:10,TIM1RST:1,SPI1RST:1,TIM8RST:1,USART1RST:1,SPI4RST:1,TIM15RST:1,TIM16RST:1,TIM17RST:1,:1,TIM20RST:1;
+    }BIT;
+  }APB2RSTR;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 TIM2RST:1,TIM3RST:1,TIM4RST:1,:1,TIM6RST:1,TIM7RST:1,:5,WWDGRST:1,:2,SPI2RST:1,SPI3RST:1,:1,USART2RST:1,USART3RST:1,USART4RST:1,USART5RST:1,I2C1RST:1,I2C2RST:1,USBRST:1,:1,CANRST:1,DAC2RST:1,:1,PWRRST:1,DAC1RST:1,I2C3RST:1;
+    }BIT;
+  }APB1RSTR;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 DMA1EN:1,DMA2EN:1,SRAMEN:1,:1,FLITFEN:1,FMCEN:1,CRCEN:1,:9,GPIOHEN:1,GPIOAEN:1,GPIOBEN:1,GPIOCEN:1,GPIODEN:1,GPIOEEN:1,GPIOFEN:1,GPIOGEN:1,TSCEN:1,:3,ADC12EN:1,ADC34EN:1;
+    }BIT;
+  }AHBENR;
+ 
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 SYSCFGEN:1,:10,TIM1EN:1,SPI1EN:1,TIM8EN:1,USART1EN:1,SPI4EN:1,TIM15EN:1,TIM16EN:1,TIM17EN:1,:1,TIM20EN:1;
+    }BIT;
+  }APB2ENR;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 TIM2EN:1,TIM3EN:1,TIM4EN:1,:1,TIM6EN:1,TIM7EN:1,:5,WWDGEN:1,:2,SPI2EN:1,SPI3EN:1,:1,USART2EN:1,USART3EN:1,USART4EN:1,USART5EN:1,I2C1EN:1,I2C2EN:1,USBEN:1,:1,CANEN:1,DAC2EN:1,:1,PWREN:1,DAC1EN:1,I2C3EN:1;
+    }BIT;
+  }APB1ENR;
+
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 LSEON:1,LSERDY:1,LSEBYP:1,LSEDRV:2,:3,RTCSEL:2,:5,RTCEN:1,BDRST:1;
+    }BIT;
+  }BDCR;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 LSION:1,LSIRDY:1,:21,VREGRSTF:1,RMVF:1,OBLRSTF:1,PINRSTF:1,PORRSTF:1,SFTRSTF:1,IWDGRSTF:1,WWDGRSTF:1,LPWRRSTF:1;
+    }BIT;
+  }CSR;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 :5,FMCRST:1,:10,GPIOHRST:1,GPIOARST:1,GPIOBRST:1,GPIOCRST:1,GPIODRST:1,GPIOERST:1,GPIOFRST:1,GPIOGRST:1,TSCRST:1,:3,ADC12RST:1,ADC3RST:1;
+    }BIT;
+  }AHBRSTR;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 PREDIV:4,ADC12PRESC:5,ADC34PRESC:5;
+    }BIT;
+  }CFGR2;
+  
+  union
+  {
+    volatile U32 VALUE;
+    struct
+    {
+       volatile U32 USART1SW:2,:2,I2C1SW:1,I2C2SW:1,I2C3SW:1,:1,TIM1SW:1,TIM8SW:1,TIM15SW:1,TIM16SW:1,:1,TIM17SW:1,:1,TIM20SW:1,USART2SW:2,USART3SW:2,USART4SW:2,USART5SW:2,TIM2SW:1,TIM34SW:1;
+    }BIT;
+  }CFGR3;
+  
+}RCC_BYTES;
+
+typedef enum 
+{
+   RESET,
+   UNRESET,
+   CLKEN,
+   CLKDIS
+}CMDTYPE;
+
+typedef enum {APB2RSTR,APB1RSTR,AHBRSTR}RESETREG;
+typedef enum 
+{
+   //AHB1
+   GPIOARST=1,
+   GPIOBRST=(1<<1),
+   GPIOCRST=(1<<2),
+   GPIODRST=(1<<3),
+   GPIOERST=(1<<4),
+   GPIOFRST=(1<<5),
+   GPIOGRST=(1<<6),
+   GPIOHRST=(1<<7),
+   GPIOIRST=(1<<8),
+   GPIOJRST=(1<<9),
+   GPIOKRST=(1<<10),
+   CRCRST=(1<<12),
+   DMA1RST=(1<<21),
+   DMA2RST=(1<<22),
+   DMA2DRST=(1<<23),
+   ETHMACRST=(1<<25),
+   OTGHSRST=(1<<29),
+   //AHB2
+   DCMIRST=1,
+   CRYPRST=(1<<4),
+   HASHRST=(1<<5),
+   RNGRST=(1<<6),
+   OTGFSRST=(1<<7),
+   //AHB3
+   FMCRSTR=1,
+   //APB1
+   TIM2RST=1,
+   TIM3RST=(1<<1),
+   TIM4RST=(1<<2),
+   TIM5RST=(1<<4),
+   TIM6RST=(1<<6),
+   TIM7RST=(1<<7),
+   TIM12RST=(1<<8),
+   TIM13RST=(1<<9),
+   TIM14RST=(1<<10),
+   WWDGRST=(1<<12),
+   SPI2RST=(1<<14),
+   SPI3RST=(1<<15),
+   UART2RST=(1<<17),
+   UART3RST=(1<<18),
+   UART4RST=(1<<19),
+   UART5RST=(1<<20),
+   I2C1RST=(1<<21),
+   I2C2RST=(1<<22),
+   I2C3RST=(1<<23),
+   CAN1RST=(1<<25),
+   CAN2RST=(1<<26),
+   PWRRST=(1<<28),
+   DACRST=(1<<29),
+   UART7RST=(1<<30),
+   UART8RST=(1<<31),
+  
+   //APB2
+   TIM1RST=1,
+   TIM8RST=(1<<1),
+   USART1RST=(1<<4),
+   USART6RST=(1<<5),
+   ADCRST=(1<<8),
+   SDIORST=(1<<11),
+   SPI1RST=(1<<12),
+   SPI4RST=(1<<13),
+   SYSCFGRST=(1<<14),
+   TIM9RST=(1<<16),
+   TIM10RST=(1<<17),
+   TIM11RST=(1<<18),
+   SPI5RST=(1<<20),
+   SPI6RST=(1<<21),
+   SAI1RST=(1<<22),
+   LTDCRST=(1<<26)   
+}RESETPERIPH;
+
+typedef enum {APB1EN,APB2EN,AHBEN}ENABLEREG;
+typedef enum 
+{
+   //AHB
+   DMA1CLKEN=1,
+   DMA2CLKEN=(1<<1),
+   SRAMCLKEN=(1<<2),
+   FLITFCLKEN=(1<<4),
+   CRCCLKEN=(1<<6),
+   GPIOACLKEN=(1<<17),
+   GPIOBCLKEN=(1<<18),
+   GPIOCCLKEN=(1<<19),
+   GPIODCLKEN=(1<<20),
+   GPIOECLKEN=(1<<21),
+   GPIOFCLKEN=(1<<22),
+   TSCCLKEN=(1<<24),
+   ADC12CLKEN=(1<<28),  
+   ADC34CLKEN=(1<<29),
+    
+   
+   
+   //APB1
+   TIM2CLKEN=1,
+   TIM3CLKEN=(1<<1),
+   TIM4CLKEN=(1<<2),    
+   TIM6CLKEN=(1<<4),   
+   TIM7CLKEN=(1<<5),  
+   WWDGCLKEN=(1<<11),
+   SPI2CLKEN=(1<<14),
+   SPI3CLKEN=(1<<15),
+   USART2CLKEN=(1<<17),
+   USART3CLKEN=(1<<18),
+   USART4CLKEN=(1<<19),
+   USART5CLKEN=(1<<20),   
+   I2C1CLKEN=(1<<21),
+   I2C2CLKEN=(1<<22),
+   USBCLKEN=(1<<23), 
+   CANCLKEN=(1<<25),
+   PWRCLKEN=(1<<28),
+   DACCLKEN=(1<<29),
+   //APB2
+   SYSCFGCLKEN=1,
+   TIM1CLKEN=(1<<11),
+   SPI1CLKEN=(1<<12),
+   TIM8CLKEN=(1<<13),
+   USART1CLKEN=(1<<14), 
+   TIM15CLKEN=(1<<16),
+   TIM16CLKEN=(1<<17),
+   TIM17CLKEN=(1<<18), 
+}ENABLEPERIPH;
+ 
+//USEL
+#define USART1SEL 0
+#define USART2SEL 16
+#define USART3SEL 18
+#define USART4SEL 20
+#define USART5SEL 22
+//CLKSRC
+#define UCLKPCLK 0
+#define UCLKSYS  1
+#define UCLKLSE  2
+#define UCLKHSI  3
+
+typedef enum {HSISRC=0,HSESRC=1,PLLSRC=2}SYSSRC; 
+
+typedef enum {PLLHSIDIV2SRC=0,PLLHSESRC=1}PLL_SRC;
+typedef enum {PLLP_DIV2=0,PLLP_DIV4=1,PLLP_DIV6=2,PLLP_DIV8=3}PLLP_DIV;
+
+typedef enum {APB1_DIV1=0,APB1_DIV2=4,APB1_DIV4=5,APB1_DIV8=6,APB1_DIV16=7}APB1_DIV;
+typedef enum {APB2_DIV1=0,APB2_DIV2=4,APB2_DIV4=5,APB2_DIV8=6,APB2_DIV16=7}APB2_DIV;
+typedef enum {AHB_DIV1=0,AHB_DIV2=8,AHB_DIV4=9,AHB_DIV8=10,AHB_DIV16=11,AHB_DIV64=12,AHB_DIV128=13,AHB_DIV256=14,AHB_DIV512=15}AHB_DIV;
+
+
+#ifdef RCC_BASE
+#define RCC (*((RCC_BYTES*)RCC_BASE))
+extern void RCC_PERIPHFULRST(RESETPERIPH PERIPH,RESETREG REG,U32 TIME);
+//extern void RCC_PERIPHRESETCMD(CMDTYPE CMD,RESETPERIPH PERIPH,RESETREG REG)
+extern void RCC_PERIPHRESETCMD(State CMD,RESETREG REG,RESETPERIPH PERIPH);
+extern void RCC_PERIPHCLKENCMD(State CMD,ENABLEREG REG,ENABLEPERIPH PERIPH);
+
+extern void HSEBYPASS(State BYP);
+extern void PLLINIT(PLL_SRC SRC,U8 PLLMUL);
+extern void APBAHBDIV(APB1_DIV DIV1,APB2_DIV DIV2,AHB_DIV DIV3);
+
+extern CMDRES PWR_OVDMODEN(U16 TIMEOUT);
+extern CMDRES PLLCMD(State CMD,U16 TIMEOUT);
+
+extern CMDRES HSECMD(U16 TIMEOUT,State CMD);
+extern CMDRES HSICMD(U16 TIMEOUT,State CMD);
+extern void HSECONFIG(U8 HSEDIV,U32 FRQ);
+extern CMDRES SYSCLKSW(SYSSRC SOURSE,U16 TIMEOUT);
+
+extern void USARTSETCLKSRC(U8 USEL,U8 CLKSRC);
+
+//pre1 divfactors
+#define PRE1_DIV1   0x10
+#define PRE1_DIV2   0x11
+#define PRE1_DIV4   0x12
+#define PRE1_DIV6   0x13
+#define PRE1_DIV8   0x14
+#define PRE1_DIV10  0x15
+#define PRE1_DIV12  0x16
+#define PRE1_DIV16  0x17
+#define PRE1_DIV32  0x18
+#define PRE1_DIV64  0x19
+#define PRE1_DIV128 0x1A
+#define PRE1_DIV256 0x1B
+
+extern void SETADC12PRE(U8 PRE1);
+extern void SETADC34PRE(U8 PRE1);
+
+#else
+#error undefined RCC_BASE
+#endif//RCC_BASE
+
+#endif//STM32F303X
+
+#endif//_RCCF303_H_
